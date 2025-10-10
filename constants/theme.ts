@@ -51,3 +51,19 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+export const BRAND = {
+  blue: '#1f4fa3',
+  blueDark: '#173d7d',
+  blueLight: '#3b6cd1',
+  grayBg: '#f4f6fb',
+  text: '#0f172a',
+  textSecondary: '#64748b',
+  white: '#ffffff',
+  success: '#22c55e',
+  warn: '#f59e0b',
+  danger: '#ef4444',
+  green: '#22c55e',
+  orange: '#f59e0b',
+  red: '#ef4444',
+};

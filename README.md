@@ -1,31 +1,70 @@
-# Welcome to your Expo app 👋
+# Batterysafe �⚡
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App de monitoramento inteligente de bateria para veículos elétricos (BYD Dolphin).
 
-## Get started
+## ✨ Funcionalidades Implementadas
 
-1. Install dependencies
+### 📊 Dashboard Interativo
+- **Visualização em tempo real** da bateria do BYD Dolphin
+- **Imagem real do veículo** carregada dinamicamente
+- **Toque no badge da bateria** para simular carregamento
+- **Animação de pulse** quando carregando
+- **Toque na imagem do carro** para atualizar temperatura aleatória
+- Indicador de bateria muda de cor baseado no nível:
+  - Verde (>80%)
+  - Laranja (20-80%)
+  - Vermelho (<20%)
+- Ícone de bateria dinâmico que reflete o estado
 
-   ```bash
-   npm install
-   ```
+### 🚨 Alertas Gerenciáveis
+- **Dismissar alertas individualmente** - toque no X
+- **Limpar todos os alertas** de uma vez
+- **Timestamp** de cada alerta
+- **Estado vazio animado** quando não há alertas
+- 3 tipos de alertas por cor:
+  - Verde: Informações positivas
+  - Laranja: Avisos
+  - Vermelho: Alertas críticos
 
-2. Start the app
+### 📈 Histórico com Gráficos
+- **Seleção de período** (Dia/Mês/Ano)
+- **Gráficos dinâmicos** que mudam conforme período
+- **Visualização de tendências** da saúde da bateria
+- Estatísticas detalhadas de degradação
 
-   ```bash
-   npx expo start
-   ```
+## 🚀 Como Executar
 
-In the output, you'll find options to open the app in a
+### Instalação
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+```bash
+# 1. Instalar dependências
+npm install
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+# 2. Iniciar o servidor Expo
+npx expo start
 
-## Get a fresh project
+# 3. Para iOS (requer macOS + Xcode)
+npm run ios
+
+# 4. Para Android
+npm run android
+
+# 5. Para Web
+npm run web
+```
+
+### Simulador iOS
+Se aparecer erro "No iOS devices available":
+```bash
+# Remover simuladores indisponíveis
+xcrun simctl delete unavailable
+
+# Listar simuladores disponíveis
+xcrun simctl list devices
+
+# Abrir Simulator.app
+open -a Simulator
+```## Get a fresh project
 
 When you're ready, run:
 
@@ -35,16 +74,99 @@ npm run reset-project
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
+## 📦 Tecnologias
 
-To learn more about developing your project with Expo, look at the following resources:
+- **React Native** 0.81.4
+- **Expo** ~54.0.12
+- **TypeScript**
+- **Expo Router** (navegação file-based)
+- **React Native Chart Kit** (gráficos)
+- **@expo/vector-icons** (ícones)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🎨 Design
 
-## Join the community
+### Paleta de Cores
+```typescript
+BRAND = {
+  blue: '#1f4fa3',        // Azul principal
+  success: '#22c55e',     // Verde - alertas positivos
+  warn: '#f59e0b',        // Laranja - avisos
+  danger: '#ef4444',      // Vermelho - alertas críticos
+  grayBg: '#f4f6fb',      // Fundo cinza claro
+}
+```
 
-Join our community of developers creating universal apps.
+### Componentes Reutilizáveis
+- `<Header>` - Cabeçalho com menu
+- `<Stat>` - Card de estatística
+- `<Chip>` - Botão de seleção com estado ativo
+- `<AlertCard>` - Card de alerta com indicador colorido
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📱 Estrutura do App
+
+```
+app/
+├── (tabs)/
+│   ├── index.tsx      # Dashboard (tela principal)
+│   ├── alerts.tsx     # Gestão de alertas
+│   ├── history.tsx    # Gráficos e histórico
+│   └── _layout.tsx    # Navegação das tabs
+components/
+├── Header.tsx
+├── Stat.tsx
+├── Chip.tsx
+└── AlertCard.tsx
+constants/
+└── theme.ts           # Cores e estilos globais
+```
+
+## 🔥 Funcionalidades Interativas
+
+### Dashboard
+```typescript
+// Toque no badge da bateria para simular carregamento
+<TouchableOpacity onPress={toggleCharging}>
+  <Animated.View> // Animação de pulse
+    <MaterialCommunityIcons name={getBatteryIcon()} />
+  </Animated.View>
+</TouchableOpacity>
+
+// Toque na imagem para mudar temperatura
+<TouchableOpacity onPress={() => setTemperature(random())}>
+  <Image source={{ uri: 'byd-dolphin.jpg' }} />
+</TouchableOpacity>
+```
+
+### Alertas
+```typescript
+// Dismissar alerta específico
+dismissAlert(id)
+
+// Limpar todos
+clearAllAlerts()
+```
+
+### Histórico
+```typescript
+// Mudar período do gráfico
+<Chip 
+  label="Mês" 
+  active={selectedPeriod === 'Mês'}
+  onPress={() => setSelectedPeriod('Mês')} 
+/>
+```
+
+## 🚧 Próximas Melhorias
+
+- [ ] Persistência de dados (AsyncStorage)
+- [ ] Notificações push reais
+- [ ] Integração com API de veículos elétricos
+- [ ] Modo escuro
+- [ ] Múltiplos veículos
+- [ ] Exportar relatórios PDF
+- [ ] Previsão de degradação com ML
+- [ ] Integração com carregadores
+
+## 📄 Licença
+
+Projeto educacional - Livre para uso e modificação.

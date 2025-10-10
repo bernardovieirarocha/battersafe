@@ -1,17 +1,19 @@
 {
   "expo": {
-    "name": "battersafe",
-    "slug": "battersafe",
+    "name": "batterysafe",
+    "slug": "batterysafe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "battersafe",
+    "scheme": "batterysafe",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.batterysafe"
     },
     "android": {
+      "package": "com.anonymous.batterysafe",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -38,7 +40,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
