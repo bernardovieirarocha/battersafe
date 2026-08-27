@@ -1,172 +1,58 @@
-# Batterysafe �⚡
+# BatterySafe
 
-App de monitoramento inteligente de bateria para veículos elétricos (BYD Dolphin).
+Protótipo de aplicativo de monitoramento de saúde de bateria para veículo elétrico,
+feito para ilustrar a proposta que apresentamos na **Competição Estudantil SAE BRASIL
+de Inovação Jump Start**, no tema *ESG e futuro da mobilidade*.
 
-## ✨ Funcionalidades Implementadas
+O carro usado como exemplo nas telas é um BYD Dolphin.
 
-### 📊 Dashboard Interativo
-- **Visualização em tempo real** da bateria do BYD Dolphin
-- **Imagem real do veículo** carregada dinamicamente
-- **Toque no badge da bateria** para simular carregamento
-- **Animação de pulse** quando carregando
-- **Toque na imagem do carro** para atualizar temperatura aleatória
-- Indicador de bateria muda de cor baseado no nível:
-  - Verde (>80%)
-  - Laranja (20-80%)
-  - Vermelho (<20%)
-- Ícone de bateria dinâmico que reflete o estado
+---
 
-### 🚨 Alertas Gerenciáveis
-- **Dismissar alertas individualmente** - toque no X
-- **Limpar todos os alertas** de uma vez
-- **Timestamp** de cada alerta
-- **Estado vazio animado** quando não há alertas
-- 3 tipos de alertas por cor:
-  - Verde: Informações positivas
-  - Laranja: Avisos
-  - Vermelho: Alertas críticos
+## O que ele é, e o que ele não é
 
-### 📈 Histórico com Gráficos
-- **Seleção de período** (Dia/Mês/Ano)
-- **Gráficos dinâmicos** que mudam conforme período
-- **Visualização de tendências** da saúde da bateria
-- Estatísticas detalhadas de degradação
+**É um protótipo de interface.** Todo dado é simulado: o nível de bateria começa em 96%,
+a temperatura em 28°C, e as duas mudam por interação na tela. Não há conexão com veículo,
+não há backend, não há chamada de rede.
 
-## 🚀 Como Executar
+Isso é deliberado. O objetivo na competição era mostrar **como a informação seria
+apresentada ao motorista**, não construir a telemetria por trás. Uma pitch de inovação se
+ganha ou se perde na clareza da proposta, e um protótipo navegável comunica isso melhor
+que um slide.
 
-### Instalação
+Para um sistema que de fato lê dado de veículo, veja a telemetria da Fórmula CEFAST.
+
+## O que as telas mostram
+
+| Tela | O que ela resolve |
+|---|---|
+| **Dashboard** | Estado atual da bateria, com o indicador mudando de cor por faixa: verde acima de 80%, laranja entre 20 e 80, vermelho abaixo de 20. Temperatura ao lado, porque é o que degrada a bateria a longo prazo. |
+| **Alertas** | Avisos em três níveis, dispensáveis um a um ou de uma vez. A ideia é que o motorista não acumule ruído: alerta que não pode ser dispensado vira alerta ignorado. |
+| **Histórico** | Degradação ao longo de dia, mês e ano. A saúde da bateria é o dado que decide o valor de revenda de um elétrico, e é justamente o que o motorista não enxerga hoje. |
+
+## Stack
+
+React Native com **Expo** e **expo-router**, TypeScript, React Navigation.
 
 ```bash
-# 1. Instalar dependências
 npm install
-
-# 2. Iniciar o servidor Expo
-npx expo start
-
-# 3. Para iOS (requer macOS + Xcode)
-npm run ios
-
-# 4. Para Android
-npm run android
-
-# 5. Para Web
-npm run web
+npx expo start        # abre o Expo, leia o QR no celular
+npx expo start --ios  # ou direto no simulador
 ```
 
-### Simulador iOS
-Se aparecer erro "No iOS devices available":
-```bash
-# Remover simuladores indisponíveis
-xcrun simctl delete unavailable
-
-# Listar simuladores disponíveis
-xcrun simctl list devices
-
-# Abrir Simulator.app
-open -a Simulator
-```## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## 📦 Tecnologias
-
-- **React Native** 0.81.4
-- **Expo** ~54.0.12
-- **TypeScript**
-- **Expo Router** (navegação file-based)
-- **React Native Chart Kit** (gráficos)
-- **@expo/vector-icons** (ícones)
-
-## 🎨 Design
-
-### Paleta de Cores
-```typescript
-BRAND = {
-  blue: '#1f4fa3',        // Azul principal
-  success: '#22c55e',     // Verde - alertas positivos
-  warn: '#f59e0b',        // Laranja - avisos
-  danger: '#ef4444',      // Vermelho - alertas críticos
-  grayBg: '#f4f6fb',      // Fundo cinza claro
-}
-```
-
-### Componentes Reutilizáveis
-- `<Header>` - Cabeçalho com menu
-- `<Stat>` - Card de estatística
-- `<Chip>` - Botão de seleção com estado ativo
-- `<AlertCard>` - Card de alerta com indicador colorido
-
-## 📱 Estrutura do App
+## Estrutura
 
 ```
 app/
-├── (tabs)/
-│   ├── index.tsx      # Dashboard (tela principal)
-│   ├── alerts.tsx     # Gestão de alertas
-│   ├── history.tsx    # Gráficos e histórico
-│   └── _layout.tsx    # Navegação das tabs
-components/
-├── Header.tsx
-├── Stat.tsx
-├── Chip.tsx
-└── AlertCard.tsx
-constants/
-└── theme.ts           # Cores e estilos globais
+  _layout.tsx        Layout raiz e navegação
+  (tabs)/
+    index.tsx        Dashboard
+    alerts.tsx       Alertas
+    history.tsx      Histórico e gráficos
+components/          Cartões, chips, header, logo e estatísticas
+assets/images/       Ícones, splash e a imagem do veículo
 ```
 
-## 🔥 Funcionalidades Interativas
+## Estado do projeto
 
-### Dashboard
-```typescript
-// Toque no badge da bateria para simular carregamento
-<TouchableOpacity onPress={toggleCharging}>
-  <Animated.View> // Animação de pulse
-    <MaterialCommunityIcons name={getBatteryIcon()} />
-  </Animated.View>
-</TouchableOpacity>
-
-// Toque na imagem para mudar temperatura
-<TouchableOpacity onPress={() => setTemperature(random())}>
-  <Image source={{ uri: 'byd-dolphin.jpg' }} />
-</TouchableOpacity>
-```
-
-### Alertas
-```typescript
-// Dismissar alerta específico
-dismissAlert(id)
-
-// Limpar todos
-clearAllAlerts()
-```
-
-### Histórico
-```typescript
-// Mudar período do gráfico
-<Chip 
-  label="Mês" 
-  active={selectedPeriod === 'Mês'}
-  onPress={() => setSelectedPeriod('Mês')} 
-/>
-```
-
-## 🚧 Próximas Melhorias
-
-- [ ] Persistência de dados (AsyncStorage)
-- [ ] Notificações push reais
-- [ ] Integração com API de veículos elétricos
-- [ ] Modo escuro
-- [ ] Múltiplos veículos
-- [ ] Exportar relatórios PDF
-- [ ] Previsão de degradação com ML
-- [ ] Integração com carregadores
-
-## 📄 Licença
-
-Projeto educacional - Livre para uso e modificação.
+Encerrado no fim da competição. Não está em desenvolvimento ativo e não tem
+continuidade prevista. Fica público como registro do que foi apresentado.
